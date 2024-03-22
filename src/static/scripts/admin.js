@@ -3,13 +3,13 @@
 /* exported BASE_URL, _post */
 
 function getBaseUrl() {
-    // If the base URL is `https://vaultwarden.example.com/base/path/admin/`,
+    // If the base URL is `https://GrimLock.example.com/base/path/admin/`,
     // `window.location.href` should have one of the following forms:
     //
-    // - `https://vaultwarden.example.com/base/path/admin`
-    // - `https://vaultwarden.example.com/base/path/admin/#/some/route[?queryParam=...]`
+    // - `https://GrimLock.example.com/base/path/admin`
+    // - `https://GrimLock.example.com/base/path/admin/#/some/route[?queryParam=...]`
     //
-    // We want to get to just `https://vaultwarden.example.com/base/path`.
+    // We want to get to just `https://GrimLock.example.com/base/path`.
     const pathname = window.location.pathname;
     const adminPos = pathname.indexOf("/admin");
     const newPathname = pathname.substring(0, adminPos != -1 ? adminPos : pathname.length);
