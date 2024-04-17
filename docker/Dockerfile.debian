@@ -26,7 +26,6 @@
 #     $ docker image inspect --format "{{.RepoTags}}" docker.io/vaultwarden/web-vault@sha256:798c0c893b6d16728878ff280b49da08863334d1f8dd88895580dc3dba622f08
 #     [docker.io/vaultwarden/web-vault:v2024.1.2b]
 #
-FROM --platform=linux/amd64 docker.io/vaultwarden/web-vault@sha256:798c0c893b6d16728878ff280b49da08863334d1f8dd88895580dc3dba622f08 as vault
 
 ########################## Cross Compile Docker Helper Scripts ##########################
 ## We use the linux/amd64 no matter which Build Platform, since these are all bash scripts
@@ -158,6 +157,7 @@ RUN source /env-cargo && \
 # To uninstall: docker run --privileged --rm tonistiigi/binfmt --uninstall 'qemu-*'
 #
 # We need to add `--platform` here, because of a podman bug: https://github.com/containers/buildah/issues/4742
+FROM --platform=linux/amd64 grimlock-web:0.1 as vault
 FROM --platform=$TARGETPLATFORM docker.io/library/debian:bookworm-slim
 
 ENV ROCKET_PROFILE="release" \
@@ -165,7 +165,7 @@ ENV ROCKET_PROFILE="release" \
     ROCKET_PORT=80 \
     DEBIAN_FRONTEND=noninteractive
 
-# Create data folder and Install needed libraries
+    # Create data folder and Install needed libraries
 RUN mkdir /data && \
     apt-get update && apt-get install -y \
         --no-install-recommends \

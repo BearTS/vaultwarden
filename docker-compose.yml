@@ -1,0 +1,42 @@
+services:
+  grimlock:
+    image: grimlock
+    restart: unless-stopped
+    ports:
+      - 80:80
+    volumes:
+      - ./grimlock-data/:/data/
+    environment:
+      - ADMIN_TOKEN=I6gmQEaGYC74BC4JgHILi4t0RhryRyBr9toMkyKBHK/oohVp+jKFn8JdkS/MyYx3
+      - SMTP_HOST=fake_smtp
+      - SMTP_FROM=grimlock@grimlock.com
+      - SMTP_SECURITY=off
+      - SMTP_PORT=1025
+      - DATABASE_URL=postgres://user:password@psql/db
+    networks:
+      - default
+
+  fake_smtp:
+    container_name: fake_smtp
+    image: sj26/mailcatcher
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+    networks:
+      - default
+  
+  psql:
+    container_name: psql
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db
+    networks:
+      - default
+
+networks:
+  dev_network:
